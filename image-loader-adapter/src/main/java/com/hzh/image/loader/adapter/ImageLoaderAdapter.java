@@ -3,6 +3,7 @@ package com.hzh.image.loader.adapter;
 import android.content.Context;
 
 import com.hzh.image.loader.adapter.base.ILoader;
+import com.hzh.image.loader.adapter.config.GlobalConfig;
 
 /**
  * Package: com.hzh.image.loader.middleware
@@ -17,8 +18,11 @@ public class ImageLoaderAdapter {
     private static Context mContext;
     private ILoader mImageLoader;
     private static boolean isInited = false;
+    //配置对象
+    private final GlobalConfig mGlobalConfig;
 
     private ImageLoaderAdapter() {
+        mGlobalConfig = GlobalConfig.newInstance(mContext);
     }
 
     private static class SingleHolder {
@@ -74,5 +78,14 @@ public class ImageLoaderAdapter {
      */
     public static Context getContext() {
         return mContext;
+    }
+
+    /**
+     * 获取当前的配置对象
+     *
+     * @return 配置对象
+     */
+    public GlobalConfig getGlobalConfig() {
+        return mGlobalConfig;
     }
 }
