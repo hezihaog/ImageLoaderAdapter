@@ -1,5 +1,7 @@
 package com.hzh.image.loader.adapter;
 
+import android.content.Context;
+
 import com.hzh.image.loader.adapter.base.ILoader;
 
 /**
@@ -12,7 +14,9 @@ import com.hzh.image.loader.adapter.base.ILoader;
  */
 
 public class ImageLoaderAdapter {
+    private static Context mContext;
     private ILoader mImageLoader;
+    private static boolean isInited = false;
 
     private ImageLoaderAdapter() {
     }
@@ -22,11 +26,26 @@ public class ImageLoaderAdapter {
     }
 
     /**
+     * 初始化
+     *
+     * @param context 上下文
+     */
+    public static ImageLoaderAdapter init(Context context) {
+        ImageLoaderAdapter.mContext = context.getApplicationContext();
+        ImageLoaderAdapter instance = SingleHolder.INSTANCE;
+        isInited = true;
+        return instance;
+    }
+
+    /**
      * 获取适配器实例
      *
      * @return 适配器实例
      */
     public static ImageLoaderAdapter getInstance() {
+        if (!isInited) {
+            throw new RuntimeException("必须先调用init方法进行出初始化");
+        }
         return SingleHolder.INSTANCE;
     }
 
@@ -46,5 +65,14 @@ public class ImageLoaderAdapter {
      */
     public ILoader getImageLoader() {
         return this.mImageLoader;
+    }
+
+    /**
+     * 获取上下文
+     *
+     * @return 上下文对象
+     */
+    public static Context getContext() {
+        return mContext;
     }
 }
